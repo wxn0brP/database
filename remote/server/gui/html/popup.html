@@ -1,0 +1,51 @@
+<script id="addServer-template" type="text/x-handlebars-template">
+    <h2>Add Server</h2>
+    <label>
+        <span>Name:</span>
+        <input type="text" id="name">
+    </label>
+    {{br 10}}
+    <label>
+        <span>Url:</span>
+        <input type="text" id="url">
+    </label>
+    {{br 10}}
+    <label>
+        <span>Login:</span>
+        <input type="text" id="login">
+    </label>
+    {{br 10}}
+    <label>
+        <span>Password:</span>
+        <input type="password" id="pass">
+    </label>
+    {{br 10}}
+    <div style="display: flex; justify-content: space-around; width: 50%; min-width: 200px; margin: auto;">
+        <button id="login-btn">Login</button>
+        <button id="cancel-btn">Cancel</button>
+    </div>
+</script>
+
+<script id="menageServers-template" type="text/x-handlebars-template">
+    <h2>Manage Servers</h2>
+    <button onclick="popupFunc.showAddServer()">Add Server</button>
+    {{br 10}}
+    {{#each serversList}}
+        <div>
+            <div>Name: {{this.name}}</div>
+            <div>URL: {{this.url}}</div>
+            <div>Login: {{this.login}}</div>
+            {{br 3}}
+            <button id="menageServers__{{this.id}}" onclick="menageServers.toggleServer('{{this.id}}', '{{this.name}}', '{{this.url}}')">
+                {{#if this.saved}}Remove from saved
+                {{else}}Add to saved
+                {{/if}}
+            </button>
+        </div>
+        {{br 10}}
+        <hr>
+        {{br 10}}
+    {{/each}}
+    {{br 10}}
+    <button id="cancel-btn">Close</button>
+</script>

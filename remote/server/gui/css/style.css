@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,700;1,300&display=swap");
+@import url("scrool.css");
+
+:root{
+    --txt: #c9d6de;
+    --txtBold: #c9d6ff;
+    --back: #181818;
+    --a: #38baaf;
+    --aHover: #98DBC6;
+    --border: #5D3FD3;
+    --panel: #101111;
+	--accent: #5D3FD3;
+    --accentRGB: 93, 63, 211;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: text;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+}
+
+b{
+    font-weight: 700;
+}
+
+i, em{
+    font-weight: 300;
+    font-style: italic;
+}
+
+body{
+    background-color: var(--back);
+    color: var(--txt);
+    text-align: center;
+}
+
+a{
+    color: var(--a);
+}
+
+a:hover{
+    color: var(--aHover);
+}
+
+#app{
+    width: 100%;
+}
+
+.mar{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

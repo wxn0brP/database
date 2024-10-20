@@ -11,7 +11,6 @@ class GraphRemote{
      * @constructor
      * @param {object} remote - The remote database object.
      * @param {string} remote.name - The name of the database.
-     * @param {string} remote.folder - The folder path where the database files are stored.
      * @param {string} remote.auth - The authentication token.
      * @param {string} remote.url - The URL of the remote database.
      */

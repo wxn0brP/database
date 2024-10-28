@@ -1,5 +1,3 @@
-import got from "got";
-
 declare class GraphRemote {
     remote: {
         name: string;

@@ -1,7 +1,8 @@
 import { existsSync, promises } from "fs";
 import { pathRepair, createRL } from "./utils.js";
 import { parse } from "../format.js";
-import { hasFieldsAdvanced, updateFindObject } from "../more.js";
+import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
+import updateFindObject from "../utils/updateFindObject.js";
 
 /**
  * Processes a line of text from a file and checks if it matches the search criteria.

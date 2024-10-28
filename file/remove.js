@@ -1,7 +1,7 @@
 import { existsSync, promises, appendFileSync, readdirSync } from "fs";
 import { pathRepair, createRL } from "./utils.js";
 import { parse } from "../format.js";
-import { hasFieldsAdvanced } from "../more.js";
+import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
 
 /**
  * Removes entries from a file based on search criteria.

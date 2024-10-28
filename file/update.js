@@ -1,7 +1,8 @@
 import { existsSync, promises, appendFileSync, readdirSync } from "fs";
 import { pathRepair, createRL } from "./utils.js";
 import { parse, stringify } from "../format.js";
-import { hasFieldsAdvanced, updateObject } from "../more.js";
+import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
+import updateObject from "../utils/updateObject.js";
 
 /**
  * Updates a file based on search criteria and an updater function or object.

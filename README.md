@@ -15,7 +15,7 @@ npm install @wxn0brp/db
 You can import the necessary classes from the package as follows:
 
 ```javascript
-import { DataBase, Graph, DataBaseRemote, GraphRemote } from "@wxn0brp/db";
+import { DataBase, Graph, DataBaseRemote, GraphRemote, Relation, genId } from "@wxn0brp/db";
 ```
 
 ## Documentation
@@ -26,3 +26,5 @@ For detailed information, refer to the following resources:
 - [Graph Documentation](./docs/graph.md)
 - [Remote Database and Graph Client Documentation](./docs/remote.md)
 - [Remote Server Documentation](./docs/remote_server.md)
+- [Search Options Documentation](./docs/search_opts.md)
+- [Relation Documentation](./docs/relation.md)

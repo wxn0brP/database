@@ -133,7 +133,6 @@ class dbActionC{
     async findOne(collection, arg, context={}, findOpts={}){
         await this.checkCollection(collection);
         const files = getSortedFiles(this.folder + "/" + collection).map(f => f.f);
-        files.reverse();
 
         for(let f of files){
             let data = await _findOne(this.folder + "/" + collection + "/" + f, arg, context, findOpts);

@@ -3,8 +3,6 @@ import gen from "./gen.js";
 import { stringify } from "./format.js";
 import { find as _find, findOne as _findOne, update as _update, remove as _remove } from "./file/index.js";
 
-const maxFileSize = 2 * 1024 * 1024; //2 MB
-
 /**
  * A class representing database actions on files.
  * @class
@@ -18,9 +16,16 @@ class dbActionC{
      */
     constructor(folder, options){
         this.folder = folder;
-        // this.cacheManager = new CacheManager(options.cacheThreshold, options.cacheTTL);
+        this.options = {
+            maxFileSize: 2 * 1024 * 1024, //2 MB
+            ...options,
+        };
         
         if(!existsSync(folder)) mkdirSync(folder, { recursive: true });
+    }
+
+    _getCollectionPath(collection){
+        return this.folder + "/" + collection + "/";
     }
 
     /**
@@ -44,8 +49,8 @@ class dbActionC{
      * @param {string} collection - The collection to check.
      */
     checkCollection(collection){
-        const path = this.folder + "/" + collection;
-        if(!existsSync(path)) mkdirSync(path, { recursive: true });
+        const cpath = this._getCollectionPath(collection);
+        if(!existsSync(cpath)) mkdirSync(cpath, { recursive: true });
     }
 
     /**
@@ -69,7 +74,8 @@ class dbActionC{
      */
     async add(collection, arg, id_gen=true){
         await this.checkCollection(collection);
-        const file = this.folder + "/" + collection + "/" + getLastFile(this.folder + "/" + collection);
+        const cpath = this._getCollectionPath(collection);
+        const file = cpath + getLastFile(cpath, this.options.maxFileSize);
 
         if(id_gen) arg._id = arg._id || gen();
         const data = stringify(arg);
@@ -94,14 +100,15 @@ class dbActionC{
         options.max = options.max || -1;
 
         await this.checkCollection(collection);
-        const files = getSortedFiles(this.folder + "/" + collection).map(f => f.f);
+        const cpath = this._getCollectionPath(collection);
+        const files = getSortedFiles(cpath).map(f => f.f);
         if(options.reverse) files.reverse();
         let datas = [];
 
         let totalEntries = 0;
 
         for(let f of files){
-            let data = await _find(this.folder + "/" + collection + "/" + f, arg, context, findOpts);
+            let data = await _find(cpath + f, arg, context, findOpts);
             if(options.reverse) data.reverse();
 
             if(options.max !== -1){
@@ -132,10 +139,11 @@ class dbActionC{
      */
     async findOne(collection, arg, context={}, findOpts={}){
         await this.checkCollection(collection);
-        const files = getSortedFiles(this.folder + "/" + collection).map(f => f.f);
+        const cpath = this._getCollectionPath(collection);
+        const files = getSortedFiles(cpath).map(f => f.f);
 
         for(let f of files){
-            let data = await _findOne(this.folder + "/" + collection + "/" + f, arg, context, findOpts);
+            let data = await _findOne(cpath + f, arg, context, findOpts);
             if(data){
                 return data;
             }
@@ -154,7 +162,7 @@ class dbActionC{
      */
     async update(collection, arg, obj, context={}){
         await this.checkCollection(collection);
-        return await _update(this.folder, collection, arg, obj, context);
+        return await _update(this._getCollectionPath(collection), arg, obj, context);
     }
 
     /**
@@ -168,7 +176,7 @@ class dbActionC{
      */
     async updateOne(collection, arg, obj, context={}){
         await this.checkCollection(collection);
-        return await _update(this.folder, collection, arg, obj, context, true);
+        return await _update(this._getCollectionPath(collection), arg, obj, context, true);
     }
 
     /**
@@ -181,7 +189,7 @@ class dbActionC{
      */
     async remove(collection, arg, context={}){
         await this.checkCollection(collection);
-        return await _remove(this.folder, collection, arg, context);
+        return await _remove(this._getCollectionPath(collection), arg, context);
     }
 
     /**
@@ -194,7 +202,7 @@ class dbActionC{
      */
     async removeOne(collection, arg, context={}){
         await this.checkCollection(collection);
-        return await _remove(this.folder, collection, arg, context, true);
+        return await _remove(this._getCollectionPath(collection), arg, context, true);
     }
 
     /**
@@ -211,9 +219,10 @@ class dbActionC{
 /**
  * Get the last file in the specified directory.
  * @param {string} path - The directory path.
+ * @param {number} maxFileSize - The maximum file size in bytes. Default is 1 MB.
  * @returns {string} The name of the last file in the directory.
  */
-function getLastFile(path){
+function getLastFile(path, maxFileSize=1024*1024){
     if(!existsSync(path)) mkdirSync(path, { recursive: true });
     const files = getSortedFiles(path);
 

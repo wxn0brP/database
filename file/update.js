@@ -61,20 +61,19 @@ async function updateWorker(file, search, updater, context={}, one=false){
 /**
  * Asynchronously updates entries in a file based on search criteria and an updater function or object.
  * @function
- * @param {string} folder - The folder containing the file.
- * @param {string} name - The name of the file to update.
+ * @param {string} cpath - Path to the collection.
  * @param {function|Object} arg - The search criteria. It can be a function or an object.
  * @param {function|Object} obj - The updater function or object.
  * @param {Object} context - The context object (for functions).
  * @param {boolean} one - Indicates whether to update only one matching entry (default: false).
  * @returns {Promise<boolean>} A Promise that resolves to `true` if entries were updated, or `false` otherwise.
  */
-async function update(folder, name, arg, obj, context={}, one){
-    let files = readdirSync(folder + "/" + name).filter(file => !/\.tmp$/.test(file));
+async function update(cpath, arg, obj, context={}, one){
+    let files = readdirSync(cpath).filter(file => !/\.tmp$/.test(file));
     files.reverse();
     let update = false;
     for(const file of files){
-        const updated = await updateWorker(folder + "/" + name + "/" + file, arg, obj, context, one);
+        const updated = await updateWorker(cpath + file, arg, obj, context, one);
         if(one && updated) return true;
         update = update || updated;
     }

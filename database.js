@@ -12,15 +12,10 @@ class DataBase{
      * @constructor
      * @param {string} folder - The folder path where the database files are stored.
      * @param {object} [options] - The options object.
-     * @param {number} [options.cacheThreshold=3] - The cache threshold for database entries (default: 3).
-     * @param {number} [options.cacheTTL=300000] - The time-to-live (TTL) for cached entries in milliseconds (default: 300,000 milliseconds or 5 minutes).
+     * @param {number} [options.maxFileSize=2*1024*1024] - The maximum size of a file in bytes. Default is 2 MB.
+     * @param {number} 
      */
     constructor(folder, options={}){
-        options = {
-            cacheThreshold: 3,
-            cacheTTL: 300_000,
-            ...options
-        }
         this.dbAction = new dbActionC(folder, options);
         this.executor = new executorC();
     }

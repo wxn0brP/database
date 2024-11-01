@@ -220,8 +220,8 @@ class DataBaseRemote{
      * @param {string} collection - The name of the collection to remove.
      * @return {void}
      */
-    removeDb(name){
-        return this._request("removeDb", { name });
+    removeCollection(name){
+        return this._request("removeCollection", { name });
     }
 }
 

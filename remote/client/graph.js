@@ -133,6 +133,16 @@ class GraphRemote{
     async issetCollection(collection){
         return await this._request("issetCollection", { collection });
     }
+
+    /**
+     * Remove the specified collection.
+     *
+     * @function
+     * @param {string} collection - The name of the collection.
+     */
+    removeCollection(collection){
+        return this._request("removeCollection", { collection });
+    }
 }
 
 export default GraphRemote;

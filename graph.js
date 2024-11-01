@@ -112,7 +112,7 @@ class Graph{
      * @param {string} collection - The collection to check.
      */
     async checkCollection(collection){
-        await this.dbAction.checkCollection(collection);
+        await this.db.checkCollection(collection);
     }
 
     /**
@@ -123,7 +123,17 @@ class Graph{
      * @returns {boolean} True if the collection exists, false otherwise.
      */
     async issetCollection(collection){
-        return await this.dbAction.issetCollection(collection);
+        return await this.db.issetCollection(collection);
+    }
+
+    /**
+     * Removes a database collection from the file system.
+     *
+     * @param {string} collection - The name of the collection to remove.
+     * @return {void}
+     */
+    removeCollection(collection){
+         this.db.removeCollection(collection);
     }
 }
 

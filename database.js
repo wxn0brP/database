@@ -195,8 +195,8 @@ class DataBase{
      * @param {string} collection - The name of the collection to remove.
      * @return {void}
      */
-    removeDb(collection){
-         this.dbAction.removeDb(collection);
+    removeCollection(collection){
+         this.dbAction.removeCollection(collection);
     }
 }
 

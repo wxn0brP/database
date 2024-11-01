@@ -118,4 +118,19 @@ router.post("/issetCollection", async (req, res) => {
     }
 });
 
+router.post("/removeCollection", async (req, res) => {
+    const { collection } = req.body;
+    if(!collection) return res.status(400).json({ err: true, msg: "collection is required" });
+    if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+
+    try{
+        const db = req.dataCenter;
+        const result = await db.removeCollection(collection);
+        res.json({ err: false, result });
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ err: true, msg: err.message });
+    }
+});
+
 export default router;

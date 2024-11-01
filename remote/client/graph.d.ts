@@ -24,6 +24,8 @@ declare class GraphRemote {
     checkCollection(collection: string): Promise<void>;
 
     issetCollection(collection: string): Promise<boolean>;
+
+    removeCollection(collection: string): void;
 }
 
 export default GraphRemote;

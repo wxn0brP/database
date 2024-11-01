@@ -20,6 +20,8 @@ declare class Graph {
     checkCollection(collection: string): Promise<void>;
 
     issetCollection(collection: string): Promise<boolean>;
+
+    removeCollection(collection: string): void;
 }
 
 export default Graph;

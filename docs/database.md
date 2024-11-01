@@ -131,7 +131,7 @@ Removes one entry from a collection.
 - **Returns:**
   - `Promise<boolean>`: A promise that resolves when the entry is removed.
 
-### Method: `removeDb(collection)`
+### Method: `removeCollection(collection)`
 Removes the specified collection from the database file system.
 
 - **Parameters:**

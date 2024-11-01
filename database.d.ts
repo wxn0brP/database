@@ -38,7 +38,7 @@ declare class DataBase {
 
     updateOneOrAdd(collection: string, search: object | Function, arg: object | Function, add_arg?: object, context?: object, id_gen?: boolean): Promise<boolean>;
 
-    removeDb(collection: string): void;
+    removeCollection(collection: string): void;
 }
 
 export default DataBase;

@@ -76,3 +76,11 @@ Checks if the specified collection exists.
   - `collection` (`string`): The name of the collection.
 - **Returns:**
   - `Promise<boolean>`: A promise that resolves to `true` if the collection exists, otherwise `false`.
+
+### Method: `removeCollection(collection)`
+Removes the specified collection from the database file system.
+
+- **Parameters:**
+  - `collection` (`string`): The name of the collection to remove.
+- **Returns:**
+  - `void`

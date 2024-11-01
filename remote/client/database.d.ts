@@ -35,7 +35,7 @@ declare class DataBaseRemote {
 
     updateOneOrAdd(collection: string, search: object | string, arg: object | string, add_arg?: object | string, context?: object, id_gen?: boolean): Promise<boolean>;
 
-    removeDb(name: string): Promise<void>;
+    removeCollection(name: string): Promise<void>;
 }
 
 export default DataBaseRemote;

@@ -211,7 +211,7 @@ class dbActionC{
      * @param {string} collection - The name of the collection to remove.
      * @return {void}
      */
-    removeDb(collection){
+    removeCollection(collection){
         rmSync(this.folder + "/" + collection, { recursive: true, force: true });
     }
 }

@@ -179,14 +179,14 @@ router.post("/updateOneOrAdd", async (req, res) => {
     }
 });
 
-router.post("/removeDb", async (req, res) => {
+router.post("/removeCollection", async (req, res) => {
     const { name } = req.body;
     if(!name) return res.status(400).json({ err: true, msg: "name is required" });
     if(!isPathSafe(baseDir, name)) return res.status(400).json({ err: true, msg: "invalid name" });
 
     try{
         const db = req.dataCenter;
-        const result = await db.removeDb(name);
+        const result = await db.removeCollection(name);
         res.json({ err: false, result });
     }catch(err){
         console.error(err);

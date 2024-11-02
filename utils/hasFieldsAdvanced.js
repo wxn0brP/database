@@ -23,8 +23,8 @@ export default function hasFieldsAdvanced(obj, fields){
 
     // Check various conditions
     if(!checkConditions(obj, fields)) return false;
-    fields = removeAdvancedOperators(fields);
-    return hasFields(obj, fields);
+    const fieldsSubset = removeAdvancedOperators({ ...fields });
+    return hasFields(obj, fieldsSubset);
 }
 
 function removeAdvancedOperators(fields){

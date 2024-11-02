@@ -1,6 +1,6 @@
 {
   "name": "@wxn0brp/db",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "index.js",
   "description": "A simple file-based database management system with support for CRUD operations, custom queries, and graph structures.",
   "homepage": "https://github.com/wxn0brP/database",

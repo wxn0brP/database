@@ -31,5 +31,8 @@
     "express": "^4.21.1",
     "jwt-simple": "^0.5.6",
     "node-cache": "^5.1.2"
+  },
+  "scripts": {
+    "postversion": "git push && git push --tags"
   }
 }

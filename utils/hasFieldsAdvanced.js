@@ -22,7 +22,26 @@ export default function hasFieldsAdvanced(obj, fields){
     }
 
     // Check various conditions
-    return checkConditions(obj, fields);
+    if(!checkConditions(obj, fields)) return false;
+    fields = removeAdvancedOperators(fields);
+    return hasFields(obj, fields);
+}
+
+function removeAdvancedOperators(fields){
+    const advancedOperators = [
+        "and", "or",
+        "gt", "lt", "gte", "lte", "in", "nin",
+        "exists",
+        "type",
+        "regex",
+        "arrinc", "arrincall", "size",
+        "startsWith", "endsWith",
+        "between",
+        "not",
+        "subset"
+    ].map(operator => "$"+operator);
+    advancedOperators.forEach(operator => delete fields[operator]);
+    return fields;
 }
 
 function checkConditions(obj, fields){

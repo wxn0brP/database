@@ -8,7 +8,7 @@
 export default function hasFields(obj, fields){
     const keys = Object.keys(fields);
     return keys.every(key => {
-        if(obj[key]){
+        if(obj[key] !== undefined){
             if(typeof fields[key] === "object" && fields[key] !== null){
                 return hasFields(obj[key], fields[key]);
             }

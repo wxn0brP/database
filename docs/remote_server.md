@@ -3,7 +3,7 @@
 Clone the repository and install the necessary development dependencies:
 
 ```bash
-git clone https://github.com/wxn0brP/db.git
+git clone https://github.com/wxn0brP/database.git
 cd db
 npm install
 ```

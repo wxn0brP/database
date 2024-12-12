@@ -20,6 +20,8 @@ import { DataBase, Graph, DataBaseRemote, GraphRemote, Relation, genId } from "@
 
 ## Documentation
 
+Website: [https://wxn0brp.github.io/database/](https://wxn0brp.github.io/database/)
+
 For detailed information, refer to the following resources:
 
 - [DataBase Documentation](./docs/database.md)

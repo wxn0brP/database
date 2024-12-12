@@ -113,6 +113,7 @@ class DataBaseRemote{
      */
     async find(collection, search, context={}, options={}, findOpts={}){
         if(typeof search === "function") search = search.toString();
+        if(findOpts.transform) findOpts.transform = findOpts.transform.toString();
         return await this._request("find", { collection, search, options, context, findOpts });
     }
 
@@ -129,6 +130,7 @@ class DataBaseRemote{
      */
     async findOne(collection, search, context={}, findOpts={}){
         if(typeof search === "function") search = search.toString();
+        if(findOpts.transform) findOpts.transform = findOpts.transform.toString();
         return await this._request("findOne", { collection, search, context, findOpts });
     }
 

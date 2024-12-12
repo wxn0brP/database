@@ -71,6 +71,8 @@ router.post("/find", async (req, res) => {
 
     try{
         const parsedSearch = parseParam(search);
+        if(findOpts?.transform) findOpts.transform = parseParam(findOpts.transform);
+
         const db = req.dataCenter;
         const result = await db.find(collection, parsedSearch, context || {}, options || {}, findOpts || {});
         res.json({ err: false, result });
@@ -87,6 +89,8 @@ router.post("/findOne", async (req, res) => {
 
     try{
         const parsedSearch = parseParam(search);
+        if(findOpts?.transform) findOpts.transform = parseParam(findOpts.transform);
+        
         const db = req.dataCenter;
         const result = await db.findOne(collection, parsedSearch, context || {}, findOpts || {});
         res.json({ err: false, result });

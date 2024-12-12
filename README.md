@@ -27,4 +27,5 @@ For detailed information, refer to the following resources:
 - [Remote Database and Graph Client Documentation](./docs/remote.md)
 - [Remote Server Documentation](./docs/remote_server.md)
 - [Search Options Documentation](./docs/search_opts.md)
+- [Find Options Documentation](./docs/find_opts.md)
 - [Relation Documentation](./docs/relation.md)

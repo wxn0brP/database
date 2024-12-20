@@ -1,5 +1,5 @@
 import { Router } from "express";
-import parseParam from "./function.js";
+import deserializeFunctions from "./function.js";
 import { isPathSafe } from "./pathUtils.js";
 const router = Router();
 
@@ -65,16 +65,21 @@ router.post("/add", async (req, res) => {
 });
 
 router.post("/find", async (req, res) => {
-    const { collection, search, context, options, findOpts } = req.body;
+    const { collection, search, context, options, findOpts, keys } = req.body;
     if(!collection || !search) return res.status(400).json({ err: true, msg: "collection & search is required" });
     if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
-        if(findOpts?.transform) findOpts.transform = parseParam(findOpts.transform);
-
+        const data = deserializeFunctions({ search, context, options, findOpts }, keys || []);
         const db = req.dataCenter;
-        const result = await db.find(collection, parsedSearch, context || {}, options || {}, findOpts || {});
+        const result = await db.find(
+            collection,
+            data.search,
+            data.context || {},
+            data.options || {},
+            data.findOpts || {}
+        );
         res.json({ err: false, result });
     }catch(err){
         console.error(err);
@@ -83,16 +88,20 @@ router.post("/find", async (req, res) => {
 });
 
 router.post("/findOne", async (req, res) => {
-    const { collection, search, context, findOpts } = req.body;
+    const { collection, search, context, findOpts, keys } = req.body;
     if(!collection || !search) return res.status(400).json({ err: true, msg: "collection & search is required" });
     if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
-        if(findOpts?.transform) findOpts.transform = parseParam(findOpts.transform);
-        
+        const data = deserializeFunctions({ search, context, findOpts }, keys || []);
         const db = req.dataCenter;
-        const result = await db.findOne(collection, parsedSearch, context || {}, findOpts || {});
+        const result = await db.findOne(
+            collection,
+            data.search,
+            data.context || {},
+            data.findOpts || {}
+        );
         res.json({ err: false, result });
     }catch(err){
         console.error(err);
@@ -101,14 +110,20 @@ router.post("/findOne", async (req, res) => {
 });
 
 router.post("/update", async (req, res) => {
-    const { collection, search, arg, context } = req.body;
+    const { collection, search, arg, context, keys } = req.body;
     if(!collection || !search || !arg) return res.status(400).json({ err: true, msg: "collection & search & arg is required" });
+    if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
-        const parsedArg = parseParam(arg);
+        const data = deserializeFunctions({ search, arg, context }, keys || []);
         const db = req.dataCenter;
-        const result = await db.update(collection, parsedSearch, parsedArg, context || {});
+        const result = await db.update(
+            collection,
+            data.search,
+            data.arg,
+            data.context || {}
+        )
         res.json({ err: false, result });
     }catch(err){
         console.error(err);
@@ -117,15 +132,20 @@ router.post("/update", async (req, res) => {
 });
 
 router.post("/updateOne", async (req, res) => {
-    const { collection, search, arg, context } = req.body;
+    const { collection, search, arg, context, keys } = req.body;
     if(!collection || !search || !arg) return res.status(400).json({ err: true, msg: "collection & search & arg is required" });
     if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
-        const parsedArg = parseParam(arg);
+        const data = deserializeFunctions({ search, arg, context }, keys || []);
         const db = req.dataCenter;
-        const result = await db.updateOne(collection, parsedSearch, parsedArg, context || {});
+        const result = await db.updateOne(
+            collection,
+            data.search,
+            data.arg,
+            data.context || {}
+        )
         res.json({ err: false, result });
     }catch(err){
         console.error(err);
@@ -134,14 +154,19 @@ router.post("/updateOne", async (req, res) => {
 });
 
 router.post("/remove", async (req, res) => {
-    const { collection, search, context } = req.body;
+    const { collection, search, context, keys } = req.body;
     if(!collection || !search) return res.status(400).json({ err: true, msg: "collection & search is required" });
     if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
+        const data = deserializeFunctions({ search, context }, keys || []);
         const db = req.dataCenter;
-        const result = await db.remove(collection, parsedSearch, context || {});
+        const result = await db.remove(
+            collection,
+            data.search,
+            data.context || {}
+        )
         res.json({ err: false, result });
     }catch(err){
         console.error(err);
@@ -150,14 +175,19 @@ router.post("/remove", async (req, res) => {
 });
 
 router.post("/removeOne", async (req, res) => {
-    const { collection, search, context } = req.body;
+    const { collection, search, context, keys } = req.body;
     if(!collection || !search) return res.status(400).json({ err: true, msg: "collection & search is required" });
     if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
+        const data = deserializeFunctions({ search, context }, keys || []);
         const db = req.dataCenter;
-        const result = await db.removeOne(collection, parsedSearch, context || {});
+        const result = await db.removeOne(
+            collection,
+            data.search,
+            data.context || {}
+        )
         res.json({ err: false, result });
     }catch(err){
         console.error(err);
@@ -166,16 +196,22 @@ router.post("/removeOne", async (req, res) => {
 });
 
 router.post("/updateOneOrAdd", async (req, res) => {
-    const { collection, search, arg, add_arg, context, id_gen } = req.body;
+    const { collection, search, arg, add_arg, context, id_gen, keys } = req.body;
     if(!collection || !search || !arg) return res.status(400).json({ err: true, msg: "collection & search & arg is required" });
     if(!isPathSafe(baseDir, collection)) return res.status(400).json({ err: true, msg: "invalid collection" });
+    if(keys && !Array.isArray(keys)) return res.status(400).json({ err: true, msg: "keys must be an array" });
 
     try{
-        const parsedSearch = parseParam(search);
-        const parsedArg = parseParam(arg);
-        const parsedAddArg = parseParam(add_arg);
+        const data = deserializeFunctions({ search, arg, add_arg, context }, keys || []);
         const db = req.dataCenter;
-        const result = await db.updateOneOrAdd(collection, parsedSearch, parsedArg, parsedAddArg || {}, context || {}, id_gen || true);
+        const result = await db.updateOneOrAdd(
+            collection,
+            data.search,
+            data.arg,
+            data.add_arg || {},
+            data.context || {},
+            id_gen || true
+        );
         res.json({ err: false, result });
     }catch(err){
         console.error(err);

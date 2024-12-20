@@ -1,5 +1,6 @@
 import got from "got";
 import CollectionManager from "../../CollectionManager.js";
+import serializeFunctions from "./function.js";
 
 /**
  * Represents a database management class for performing CRUD operations.
@@ -30,6 +31,11 @@ class DataBaseRemote{
      */
     async _request(type, data){
         data.db = this.remote.name;
+        const procesed = serializeFunctions(data);
+        data = {
+            keys: procesed.keys,
+            ...procesed.data
+        }
         const res = await got.post(this.remote.url + "/db/database/" + type, {
             json: data,
             headers: {

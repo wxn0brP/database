@@ -3,7 +3,7 @@ const usedIdsMap = new Map();
 /**
  * Generates a unique identifier based on specified parts.
  * @function
- * @param {number|number[]} parts - The number of parts or an array of parts.
+ * @param {number|number[]} [parts] - The number of parts or an array of parts.
  * @param {number} [fill=1] - The fill value for each part (default: 1).
  * @returns {string} The generated unique identifier.
  */

@@ -1,7 +1,20 @@
 {
     "compilerOptions": {
-        "typeRoots": [
-            "types",
-        ]
-    }
+        "module": "ES2022",
+        "moduleResolution": "node",
+        "target": "ES2022",
+        "declaration": true,
+        "declarationDir": "./dist/esm",
+        "outDir": "./dist/esm",
+        "rootDir": "./src",
+        "esModuleInterop": true,
+        "allowArbitraryExtensions": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

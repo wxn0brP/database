@@ -1,8 +1,7 @@
 import DataBase from "./database.js";
-import DataBaseRemote from "./remote/client/database.js";
+import DataBaseRemote from "./client/database.js";
 import { Arg, ArgOrFunc } from "./types/arg.js";
 import { DbFindOpts, FindOpts } from "./types/options.js";
-import { SearchOptions } from "./types/searchOpts.js";
 import { Context } from "./types/types.js";
 
 class CollectionManager{

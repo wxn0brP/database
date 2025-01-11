@@ -1,10 +1,10 @@
 import got from "got";
-import CollectionManager from "../../CollectionManager.js";
+import CollectionManager from "../CollectionManager.js";
 import serializeFunctions from "./function.js";
 import { findOptsRemote, Remote, RequestData } from "./remote.js";
-import { Arg, ArgOrFunc } from "../../types/arg";
-import { DbFindOpts, FindOpts } from "../../types/options.js";
-import { Context } from "../../types/types";
+import { Arg, ArgOrFunc } from "../types/arg";
+import { DbFindOpts, FindOpts } from "../types/options.js";
+import { Context } from "../types/types";
 
 /**
  * Represents a database management class for performing CRUD operations.
@@ -23,10 +23,10 @@ class DataBaseRemote{
      */
     async _request(type: string, data: RequestData){
         data.db = this.remote.name;
-        const procesed = serializeFunctions(data);
+        const processed = serializeFunctions(data);
         data = {
-            keys: procesed.keys,
-            ...procesed.data
+            keys: processed.keys,
+            ...processed.data
         }
         const res = await got.post(this.remote.url + "/db/database/" + type, {
             // @ts-ignore: Some jerk can't do the types correctly.
@@ -66,14 +66,14 @@ class DataBaseRemote{
     /**
      * Check if a collection exists.
      */
-    async issetCollection(collection){
+    async issetCollection(collection: string){
         return await this._request("issetCollection", { collection });
     }
 
     /**
      * Add data to a database.
      */
-    async add(collection, data, id_gen=true){
+    async add(collection: string, data: Arg, id_gen=true){
         return await this._request("add", { collection, data, id_gen });
     }
 

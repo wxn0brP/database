@@ -12,4 +12,21 @@ export {
     GraphRemote,
     Relation,
     genId
-};
+}
+
+import type Id from "./types/Id.js";
+import type { Arg, ArgOrFunc } from "./types/arg.js";
+import type { DbFindOpts, FindOpts, DbOpts } from "./types/options.js";
+import type Data from "./types/data.js";
+import type { SearchOptions } from "./types/searchOpts.js";
+
+export type {
+    Id,
+    Arg,
+    ArgOrFunc,
+    DbFindOpts,
+    FindOpts,
+    DbOpts,
+    Data,
+    SearchOptions
+}

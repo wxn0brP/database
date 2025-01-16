@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readdirSync, appendFileSync, rmSync, writeFileSy
 import gen from "./gen.js";
 import { stringify } from "./format.js";
 import { find as _find, findOne as _findOne, update as _update, remove as _remove } from "./file/index.js";
-import { Arg, ArgOrFunc } from "./types/arg.js";
+import { Arg, Search } from "./types/arg.js";
 import { DbFindOpts, DbOpts, FindOpts } from "./types/options.js";
 import { Context } from "./types/types";
 import { SortedFiles } from "./types/types";
@@ -90,7 +90,7 @@ class dbActionC{
     /**
      * Find entries in the specified database based on search criteria.
      */
-    async find(collection: string, arg: ArgOrFunc, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
+    async find(collection: string, arg: Search, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
         options.reverse = options.reverse || false;
         options.max = options.max || -1;
 
@@ -126,7 +126,7 @@ class dbActionC{
     /**
      * Find the first matching entry in the specified database based on search criteria.
      */
-    async findOne(collection: string, arg: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
+    async findOne(collection: string, arg: SearchOptions, context: Context={}, findOpts: FindOpts={}){
         this.checkCollection(collection);
         const cpath = this._getCollectionPath(collection);
         const files = getSortedFiles(cpath).map(f => f.f);
@@ -141,7 +141,7 @@ class dbActionC{
     /**
      * Update entries in the specified database based on search criteria and an updater function or object.
      */
-    async update(collection: string, arg: ArgOrFunc, obj: ArgOrFunc, context={}){
+    async update(collection: string, arg: Search, obj: Search, context={}){
         this.checkCollection(collection);
         return await _update(this._getCollectionPath(collection), arg, obj, context);
     }
@@ -149,7 +149,7 @@ class dbActionC{
     /**
      * Update the first matching entry in the specified database based on search criteria and an updater function or object.
      */
-    async updateOne(collection: string, arg: ArgOrFunc, obj: ArgOrFunc, context: Context={}){
+    async updateOne(collection: string, arg: Search, obj: Search, context: Context={}){
         this.checkCollection(collection);
         return await _update(this._getCollectionPath(collection), arg, obj, context, true);
     }
@@ -157,7 +157,7 @@ class dbActionC{
     /**
      * Remove entries from the specified database based on search criteria.
      */
-    async remove(collection: string, arg: ArgOrFunc, context: Context={}){
+    async remove(collection: string, arg: Search, context: Context={}){
         this.checkCollection(collection);
         return await _remove(this._getCollectionPath(collection), arg, context);
     }
@@ -165,7 +165,7 @@ class dbActionC{
     /**
      * Remove the first matching entry from the specified database based on search criteria.
      */
-    async removeOne(collection: string, arg: ArgOrFunc, context: Context={}){
+    async removeOne(collection: string, arg: Search, context: Context={}){
         this.checkCollection(collection);
         return await _remove(this._getCollectionPath(collection), arg, context, true);
     }

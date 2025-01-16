@@ -1,5 +1,5 @@
 import DataBase from "./database.js";
-import { ArgOrFunc } from "./types/arg.js";
+import { Search } from "./types/arg.js";
 import { DbFindOpts } from "./types/options.js";
 
 export interface Databases {
@@ -60,7 +60,7 @@ class Relation{
      * @param relations - Relations configuration
      * @param options - Search options
      */
-    async find(path: string, search: ArgOrFunc, relations={}, options: DbFindOpts={}){
+    async find(path: string, search: Search, relations={}, options: DbFindOpts={}){
         const { db, collection } = this._resolvePath(path);
         const items = await db.find(collection, search, {}, options);
 
@@ -77,7 +77,7 @@ class Relation{
      * @param search - Search query or function
      * @param relations - Relations configuration
      */
-    async findOne(path: string, search: ArgOrFunc, relations: Object={}){
+    async findOne(path: string, search: Search, relations: Object={}){
         const { db, collection } = this._resolvePath(path);
         const item = await db.findOne(collection, search);
 

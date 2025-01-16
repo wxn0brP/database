@@ -4,12 +4,12 @@ import { parse, stringify } from "../format.js";
 import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
 import updateObject from "../utils/updateObject.js";
 import { Context } from "../types/types.js";
-import { ArgOrFunc } from "../types/arg.js";
+import { Search } from "../types/arg.js";
 
 /**
  * Updates a file based on search criteria and an updater function or object.
  */
-async function updateWorker(file: string, search: ArgOrFunc, updater: ArgOrFunc, context: Context={}, one: boolean=false){
+async function updateWorker(file: string, search: Search, updater: Search, context: Context={}, one: boolean=false){
     file = pathRepair(file);
     if(!existsSync(file)){
         await promises.writeFile(file, "");
@@ -56,7 +56,7 @@ async function updateWorker(file: string, search: ArgOrFunc, updater: ArgOrFunc,
 /**
  * Asynchronously updates entries in a file based on search criteria and an updater function or object.
  */
-async function update(cpath: string, arg: ArgOrFunc, obj: ArgOrFunc, context: Context={}, one: boolean=false){
+async function update(cpath: string, arg: Search, obj: Search, context: Context={}, one: boolean=false){
     let files = readdirSync(cpath).filter(file => !/\.tmp$/.test(file));
     files.reverse();
     let update = false;

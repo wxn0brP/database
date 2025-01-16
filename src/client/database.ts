@@ -2,7 +2,7 @@ import got from "got";
 import CollectionManager from "../CollectionManager.js";
 import serializeFunctions from "./function.js";
 import { findOptsRemote, Remote, RequestData } from "./remote.js";
-import { Arg, ArgOrFunc } from "../types/arg";
+import { Arg, Search } from "../types/arg";
 import { DbFindOpts, FindOpts } from "../types/options.js";
 import { Context } from "../types/types";
 import Data from "../types/data.js";
@@ -81,7 +81,7 @@ class DataBaseRemote{
     /**
      * Find data in a database.
      */
-    async find<T=Data>(collection: string, search: ArgOrFunc, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
+    async find<T=Data>(collection: string, search: Search, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const findOptsRemote: findOptsRemote = {};
         if(findOpts.select) findOptsRemote.select = findOpts.select;
@@ -94,7 +94,7 @@ class DataBaseRemote{
     /**
      * Find one data entry in a database.
      */
-    async findOne<T=Data>(collection: string, search: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
+    async findOne<T=Data>(collection: string, search: Search, context: Context={}, findOpts: FindOpts={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const findOptsRemote: findOptsRemote = {};
         if(findOpts.select) findOptsRemote.select = findOpts.select;
@@ -107,7 +107,7 @@ class DataBaseRemote{
     /**
      * Update data in a database.
      */
-    async update(collection: string, search: ArgOrFunc, arg: ArgOrFunc, context: Context={}){
+    async update(collection: string, search: Search, arg: Search, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const argStr = typeof arg === "function" ? arg.toString() : arg;
         return await this._request("update", { collection, search: searchStr, arg: argStr, context }) as boolean;
@@ -116,7 +116,7 @@ class DataBaseRemote{
     /**
      * Update one data entry in a database.
      */
-    async updateOne(collection: string, search: ArgOrFunc, arg: ArgOrFunc, context: Context={}){
+    async updateOne(collection: string, search: Search, arg: Search, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const argStr = typeof arg === "function" ? arg.toString() : arg;
         return await this._request("updateOne", { collection, search: searchStr, arg: argStr, context }) as boolean;
@@ -125,7 +125,7 @@ class DataBaseRemote{
     /**
      * Remove data from a database.
      */
-    async remove(collection: string, search: ArgOrFunc, context: Context={}){
+    async remove(collection: string, search: Search, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         return await this._request("remove", { collection, search: searchStr, context }) as boolean;
     }
@@ -133,7 +133,7 @@ class DataBaseRemote{
     /**
      * Remove one data entry from a database.
      */
-    async removeOne(collection: string, search: ArgOrFunc, context: Context={}){
+    async removeOne(collection: string, search: Search, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         return await this._request("removeOne", { collection, search: searchStr, context }) as boolean;
     }
@@ -141,7 +141,7 @@ class DataBaseRemote{
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    async updateOneOrAdd(collection: string, search: ArgOrFunc, arg: ArgOrFunc, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
+    async updateOneOrAdd(collection: string, search: Search, arg: Search, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const argStr = typeof arg === "function" ? arg.toString() : arg;
         return await this._request("updateOneOrAdd", { collection, search: searchStr, arg: argStr, add_arg, id_gen, context }) as boolean;

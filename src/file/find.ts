@@ -3,15 +3,14 @@ import { pathRepair, createRL } from "./utils.js";
 import { parse } from "../format.js";
 import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
 import updateFindObject from "../utils/updateFindObject.js";
-import { ArgOrFunc } from "../types/arg.js";
+import { Search } from "../types/arg.js";
 import { Context } from "../types/types.js";
-import { SearchOptions } from "../types/searchOpts.js";
 import { FindOpts } from "../types/options.js";
 
 /**
  * Processes a line of text from a file and checks if it matches the search criteria.
  */
-async function findProcesLine(arg: ArgOrFunc, line: string, context: Context={}, findOpts: FindOpts={}){
+async function findProcesLine(arg: Search, line: string, context: Context={}, findOpts: FindOpts={}){
     const ob = parse(line);
     let res = false;
     
@@ -28,7 +27,7 @@ async function findProcesLine(arg: ArgOrFunc, line: string, context: Context={},
 /**
  * Asynchronously finds entries in a file based on search criteria.
  */
-export async function find(file: string, arg: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
+export async function find(file: string, arg: Search, context: Context={}, findOpts: FindOpts={}){
     file = pathRepair(file);
     return await new Promise(async (resolve) => {
         if(!existsSync(file)){
@@ -52,7 +51,7 @@ export async function find(file: string, arg: ArgOrFunc, context: Context={}, fi
 /**
  * Asynchronously finds one entry in a file based on search criteria.
  */
-export async function findOne(file: string, arg: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
+export async function findOne(file: string, arg: Search, context: Context={}, findOpts: FindOpts={}){
     file = pathRepair(file);
     return await new Promise(async (resolve) => {
         if(!existsSync(file)){

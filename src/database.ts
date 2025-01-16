@@ -50,30 +50,22 @@ class DataBase{
     /**
      * Add data to a database.
      */
-    async add(collection: string, data: Arg, id_gen: boolean=true){
-        return await this.executor.addOp(this.dbAction.add.bind(this.dbAction), collection, data, id_gen) as Data;
+    async add<T=Data>(collection: string, data: Arg, id_gen: boolean=true){
+        return await this.executor.addOp(this.dbAction.add.bind(this.dbAction), collection, data, id_gen) as T;
     }
 
     /**
      * Find data in a database.
      */
-    async find(collection: string, search: ArgOrFunc, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
-        return await this.executor.addOp(this.dbAction.find.bind(this.dbAction), collection, search, context, options, findOpts) as Data[];
+    async find<T=Data>(collection: string, search: ArgOrFunc, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
+        return await this.executor.addOp(this.dbAction.find.bind(this.dbAction), collection, search, context, options, findOpts) as T[];
     }
 
     /**
      * Find one data entry in a database.
-     *
-     * @async
-     * @function
-     * @param {string} collection - Name of the database collection.
-     * @param {function|Object} search - The query. It can be an object or a function.
-     * @param {Object} context - The context object (for functions).
-     * @param {Object} findOpts - Update result object with findOpts options.
-     * @returns {Promise<Object|null>} A Promise that resolves with the first matching data entry.
      */
-    async findOne(collection: string, search: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
-        return await this.executor.addOp(this.dbAction.findOne.bind(this.dbAction), collection, search, context, findOpts) as Data|null;
+    async findOne<T=Data>(collection: string, search: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
+        return await this.executor.addOp(this.dbAction.findOne.bind(this.dbAction), collection, search, context, findOpts) as (T|null);
     }
 
     /**
@@ -122,7 +114,7 @@ class DataBase{
     /**
      * Removes a database collection from the file system.
      */
-    removeCollection(collection: string){
+    async removeCollection(collection: string){
          this.dbAction.removeCollection(collection);
     }
 }

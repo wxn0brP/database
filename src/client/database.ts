@@ -5,6 +5,7 @@ import { findOptsRemote, Remote, RequestData } from "./remote.js";
 import { Arg, ArgOrFunc } from "../types/arg";
 import { DbFindOpts, FindOpts } from "../types/options.js";
 import { Context } from "../types/types";
+import Data from "../types/data.js";
 
 /**
  * Represents a database management class for performing CRUD operations.
@@ -21,7 +22,7 @@ class DataBaseRemote{
     /**
      * Make a request to the remote database.
      */
-    async _request(type: string, data: RequestData){
+    async _request<T>(type: string, data: RequestData){
         data.db = this.remote.name;
         const processed = serializeFunctions(data);
         data = {
@@ -39,7 +40,7 @@ class DataBaseRemote{
         });
 
         if(res.body.err) throw new Error(res.body.msg);
-        return res.body.result;
+        return res.body.result as T;
     }
 
     /**
@@ -53,54 +54,54 @@ class DataBaseRemote{
      * Get the names of all available databases.
      */
     async getCollections(){
-        return await this._request("getCollections", {});
+        return await this._request("getCollections", {}) as string[];
     }
 
     /**
      * Check and create the specified collection if it doesn't exist.
      */
     async checkCollection(collection: string){
-        return await this._request("checkCollection", { collection });
+        return await this._request("checkCollection", { collection }) as boolean;
     }
 
     /**
      * Check if a collection exists.
      */
     async issetCollection(collection: string){
-        return await this._request("issetCollection", { collection });
+        return await this._request("issetCollection", { collection }) as boolean;
     }
 
     /**
      * Add data to a database.
      */
-    async add(collection: string, data: Arg, id_gen=true){
-        return await this._request("add", { collection, data, id_gen });
+    async add<T=Data>(collection: string, data: Arg, id_gen=true){
+        return await this._request("add", { collection, data, id_gen }) as T;
     }
 
     /**
      * Find data in a database.
      */
-    async find(collection: string, search: ArgOrFunc, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
+    async find<T=Data>(collection: string, search: ArgOrFunc, context: Context={}, options: DbFindOpts={}, findOpts: FindOpts={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const findOptsRemote: findOptsRemote = {};
         if(findOpts.select) findOptsRemote.select = findOpts.select;
         if(findOpts.exclude) findOptsRemote.exclude = findOpts.exclude;
         if(findOpts.transform) findOptsRemote.transform = findOpts.transform.toString();
 
-        return await this._request("find", { collection, search: searchStr, options, context, findOpts });
+        return await this._request("find", { collection, search: searchStr, options, context, findOpts }) as T[];
     }
 
     /**
      * Find one data entry in a database.
      */
-    async findOne(collection: string, search: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
+    async findOne<T=Data>(collection: string, search: ArgOrFunc, context: Context={}, findOpts: FindOpts={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const findOptsRemote: findOptsRemote = {};
         if(findOpts.select) findOptsRemote.select = findOpts.select;
         if(findOpts.exclude) findOptsRemote.exclude = findOpts.exclude;
         if(findOpts.transform) findOptsRemote.transform = findOpts.transform.toString();
 
-        return await this._request("findOne", { collection, search: searchStr, context, findOpts });
+        return await this._request("findOne", { collection, search: searchStr, context, findOpts }) as (T|null);
     }
 
     /**
@@ -109,7 +110,7 @@ class DataBaseRemote{
     async update(collection: string, search: ArgOrFunc, arg: ArgOrFunc, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const argStr = typeof arg === "function" ? arg.toString() : arg;
-        return await this._request("update", { collection, search: searchStr, arg: argStr, context });
+        return await this._request("update", { collection, search: searchStr, arg: argStr, context }) as boolean;
     }
 
     /**
@@ -118,7 +119,7 @@ class DataBaseRemote{
     async updateOne(collection: string, search: ArgOrFunc, arg: ArgOrFunc, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const argStr = typeof arg === "function" ? arg.toString() : arg;
-        return await this._request("updateOne", { collection, search: searchStr, arg: argStr, context });
+        return await this._request("updateOne", { collection, search: searchStr, arg: argStr, context }) as boolean;
     }
 
     /**
@@ -126,7 +127,7 @@ class DataBaseRemote{
      */
     async remove(collection: string, search: ArgOrFunc, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
-        return await this._request("remove", { collection, search: searchStr, context });
+        return await this._request("remove", { collection, search: searchStr, context }) as boolean;
     }
 
     /**
@@ -134,7 +135,7 @@ class DataBaseRemote{
      */
     async removeOne(collection: string, search: ArgOrFunc, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
-        return await this._request("removeOne", { collection, search: searchStr, context });
+        return await this._request("removeOne", { collection, search: searchStr, context }) as boolean;
     }
 
     /**
@@ -143,14 +144,14 @@ class DataBaseRemote{
     async updateOneOrAdd(collection: string, search: ArgOrFunc, arg: ArgOrFunc, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
         const searchStr = typeof search === "function" ? search.toString() : search;
         const argStr = typeof arg === "function" ? arg.toString() : arg;
-        return await this._request("updateOneOrAdd", { collection, search: searchStr, arg: argStr, add_arg, id_gen, context });
+        return await this._request("updateOneOrAdd", { collection, search: searchStr, arg: argStr, add_arg, id_gen, context }) as boolean;
     }
 
     /**
      * Removes a database collection from the file system.
      */
-    removeCollection(name: string){
-        return this._request("removeCollection", { name });
+    async removeCollection(name: string){
+        return await this._request<boolean>("removeCollection", { name }) as boolean;
     }
 }
 

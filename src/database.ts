@@ -2,7 +2,7 @@ import dbActionC from "./action.js";
 import executorC from "./executor.js";
 import CollectionManager from "./CollectionManager.js";
 import { DbFindOpts, DbOpts, FindOpts } from "./types/options.js";
-import { Arg, Search } from "./types/arg.js";
+import { Arg, Search, Updater } from "./types/arg.js";
 import Data from "./types/data.js";
 import { Context } from "./types/types.js";
 
@@ -71,15 +71,15 @@ class DataBase{
     /**
      * Update data in a database.
      */
-    async update(collection: string, search: Search, arg: Search, context={}){
-        return await this.executor.addOp(this.dbAction.update.bind(this.dbAction), collection, search, arg, context) as boolean;
+    async update(collection: string, search: Search, updater: Updater, context={}){
+        return await this.executor.addOp(this.dbAction.update.bind(this.dbAction), collection, search, updater, context) as boolean;
     }
 
     /**
      * Update one data entry in a database.
      */
-    async updateOne(collection: string, search: Search, arg: Search, context: Context={}){
-        return await this.executor.addOp(this.dbAction.updateOne.bind(this.dbAction), collection, search, arg, context) as boolean;
+    async updateOne(collection: string, search: Search, updater: Updater, context: Context={}){
+        return await this.executor.addOp(this.dbAction.updateOne.bind(this.dbAction), collection, search, updater, context) as boolean;
     }
 
     /**
@@ -99,12 +99,12 @@ class DataBase{
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    async updateOneOrAdd(collection: string, search: Search, arg: Search, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
-        const res = await this.updateOne(collection, search, arg, context);
+    async updateOneOrAdd(collection: string, search: Search, updater: Updater, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
+        const res = await this.updateOne(collection, search, updater, context);
         if(!res){
             const assignData = [];
             if(typeof search === "object" && !Array.isArray(search)) assignData.push(search);
-            if(typeof arg === "object" && !Array.isArray(arg)) assignData.push(arg);
+            if(typeof updater === "object" && !Array.isArray(updater)) assignData.push(updater);
             if(typeof add_arg === "object" && !Array.isArray(add_arg)) assignData.push(add_arg);
             await this.add(collection, Object.assign({}, ...assignData), id_gen);
         }

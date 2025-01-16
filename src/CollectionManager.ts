@@ -1,6 +1,6 @@
 import DataBase from "./database.js";
 import DataBaseRemote from "./client/database.js";
-import { Arg, Search } from "./types/arg.js";
+import { Arg, Search, Updater } from "./types/arg.js";
 import { DbFindOpts, FindOpts } from "./types/options.js";
 import { Context } from "./types/types.js";
 import Data from "./types/data.js";
@@ -38,15 +38,15 @@ class CollectionManager{
     /**
      * Update data in a database.
      */
-    async update(search: Search, arg: Search, context: Context={}){
-        return await this.db.update(this.collection, search, arg, context) as boolean;
+    async update(search: Search, updater: Updater, context: Context={}){
+        return await this.db.update(this.collection, search, updater, context) as boolean;
     }
 
     /**
      * Update one data entry in a database.
      */
-    async updateOne(search: Search, arg: Search, context: Context={}){
-        return await this.db.updateOne(this.collection, search, arg, context) as boolean;
+    async updateOne(search: Search, updater: Updater, context: Context={}){
+        return await this.db.updateOne(this.collection, search, updater, context) as boolean;
     }
 
     /**

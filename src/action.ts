@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readdirSync, appendFileSync, rmSync, writeFileSy
 import gen from "./gen.js";
 import { stringify } from "./format.js";
 import { find as _find, findOne as _findOne, update as _update, remove as _remove } from "./file/index.js";
-import { Arg, Search } from "./types/arg.js";
+import { Arg, Search, Updater } from "./types/arg.js";
 import { DbFindOpts, DbOpts, FindOpts } from "./types/options.js";
 import { Context } from "./types/types";
 import { SortedFiles } from "./types/types";
@@ -20,8 +20,8 @@ class dbActionC{
     /**
      * Creates a new instance of dbActionC.
      * @constructor
-     * @param {string} folder - The folder where database files are stored.
-     * @param {object} options - The options object.
+     * @param folder - The folder where database files are stored.
+     * @param options - The options object.
      */
     constructor(folder: string, options: DbOpts){
         this.folder = folder;
@@ -39,7 +39,6 @@ class dbActionC{
 
     /**
      * Get a list of available databases in the specified folder.
-     * @returns {string[]} An array of database names.
      */
     getCollections(){
         const collections = readdirSync(this.folder, { recursive: true, withFileTypes: true })
@@ -54,8 +53,6 @@ class dbActionC{
 
     /**
      * Check and create the specified collection if it doesn't exist.
-     * @function
-     * @param {string} collection - The collection to check.
      */
     checkCollection(collection: string){
         const cpath = this._getCollectionPath(collection);
@@ -64,9 +61,6 @@ class dbActionC{
 
     /**
      * Check if a collection exists.
-     * @function
-     * @param {string} collection - The name of the collection.
-     * @returns {boolean} True if the collection exists, false otherwise.
      */
     issetCollection(collection: string){
         const path = this.folder + "/" + collection;
@@ -141,17 +135,17 @@ class dbActionC{
     /**
      * Update entries in the specified database based on search criteria and an updater function or object.
      */
-    async update(collection: string, arg: Search, obj: Search, context={}){
+    async update(collection: string, arg: Search, updater: Updater, context={}){
         this.checkCollection(collection);
-        return await _update(this._getCollectionPath(collection), arg, obj, context);
+        return await _update(this._getCollectionPath(collection), arg, updater, context);
     }
 
     /**
      * Update the first matching entry in the specified database based on search criteria and an updater function or object.
      */
-    async updateOne(collection: string, arg: Search, obj: Search, context: Context={}){
+    async updateOne(collection: string, arg: Search, updater: Updater, context: Context={}){
         this.checkCollection(collection);
-        return await _update(this._getCollectionPath(collection), arg, obj, context, true);
+        return await _update(this._getCollectionPath(collection), arg, updater, context, true);
     }
 
     /**

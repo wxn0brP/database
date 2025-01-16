@@ -1,15 +1,15 @@
-import { existsSync, promises, appendFileSync, readdirSync } from "fs";
+import { existsSync, promises, readdirSync } from "fs";
 import { pathRepair, createRL } from "./utils.js";
 import { parse, stringify } from "../format.js";
 import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
-import updateObject from "../utils/updateObject.js";
+import updateObjectAdvanced from "../utils/updateObject.js";
 import { Context } from "../types/types.js";
-import { Search } from "../types/arg.js";
+import { Search, Updater } from "../types/arg.js";
 
 /**
  * Updates a file based on search criteria and an updater function or object.
  */
-async function updateWorker(file: string, search: Search, updater: Search, context: Context={}, one: boolean=false){
+async function updateWorker(file: string, search: Search, updater: Updater, context: Context={}, one: boolean=false){
     file = pathRepair(file);
     if(!existsSync(file)){
         await promises.writeFile(file, "");
@@ -23,7 +23,7 @@ async function updateWorker(file: string, search: Search, updater: Search, conte
     let updated = false;
     for await(let line of rl){
         if(one && updated){
-            appendFileSync(file, line+"\n");
+            await promises.appendFile(file, line+"\n");
             continue;
         }
 
@@ -37,17 +37,18 @@ async function updateWorker(file: string, search: Search, updater: Search, conte
         }
 
         if(ob){
-            let updateObj;
+            let updateObj = data;
             if(typeof updater === "function"){
-                updateObj = updater(data, context);
+                const updateObjValue = updater(data, context);
+                if(updateObjValue) updateObj = updateObjValue;
             }else if(typeof updater === "object" && !Array.isArray(updater)){
-                updateObj = updateObject(data, updater);
+                updateObj = updateObjectAdvanced(data, updater);
             }
             line = await stringify(updateObj);
             updated = true;
         }
         
-        appendFileSync(file, line+"\n");
+        await promises.appendFile(file, line+"\n");
     }
     await promises.writeFile(file+".tmp", "");
     return updated;
@@ -56,12 +57,12 @@ async function updateWorker(file: string, search: Search, updater: Search, conte
 /**
  * Asynchronously updates entries in a file based on search criteria and an updater function or object.
  */
-async function update(cpath: string, arg: Search, obj: Search, context: Context={}, one: boolean=false){
+async function update(cpath: string, arg: Search, updater: Updater, context: Context={}, one: boolean=false){
     let files = readdirSync(cpath).filter(file => !/\.tmp$/.test(file));
     files.reverse();
     let update = false;
     for(const file of files){
-        const updated = await updateWorker(cpath + file, arg, obj, context, one);
+        const updated = await updateWorker(cpath + file, arg, updater, context, one);
         if(one && updated) return true;
         update = update || updated;
     }

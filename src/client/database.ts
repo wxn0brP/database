@@ -2,7 +2,7 @@ import got from "got";
 import CollectionManager from "../CollectionManager.js";
 import serializeFunctions from "./function.js";
 import { findOptsRemote, Remote, RequestData } from "./remote.js";
-import { Arg, Search } from "../types/arg";
+import { Arg, Search, Updater } from "../types/arg";
 import { DbFindOpts, FindOpts } from "../types/options.js";
 import { Context } from "../types/types";
 import Data from "../types/data.js";
@@ -107,18 +107,18 @@ class DataBaseRemote{
     /**
      * Update data in a database.
      */
-    async update(collection: string, search: Search, arg: Search, context: Context={}){
+    async update(collection: string, search: Search, updater: Updater, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
-        const argStr = typeof arg === "function" ? arg.toString() : arg;
+        const argStr = typeof updater === "function" ? updater.toString() : updater;
         return await this._request("update", { collection, search: searchStr, arg: argStr, context }) as boolean;
     }
 
     /**
      * Update one data entry in a database.
      */
-    async updateOne(collection: string, search: Search, arg: Search, context: Context={}){
+    async updateOne(collection: string, search: Search, updater: Updater, context: Context={}){
         const searchStr = typeof search === "function" ? search.toString() : search;
-        const argStr = typeof arg === "function" ? arg.toString() : arg;
+        const argStr = typeof updater === "function" ? updater.toString() : updater;
         return await this._request("updateOne", { collection, search: searchStr, arg: argStr, context }) as boolean;
     }
 

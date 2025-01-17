@@ -66,8 +66,8 @@ class CollectionManager{
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    async updateOneOrAdd(search: Search, arg: Search, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
-        return await this.db.updateOneOrAdd(this.collection, search, arg, add_arg, context, id_gen) as boolean;
+    async updateOneOrAdd(search: Search, updater: Updater, add_arg: Arg={}, context: Context={}, id_gen: boolean=true){
+        return await this.db.updateOneOrAdd(this.collection, search, updater, add_arg, context, id_gen) as boolean;
     }
 }
 

@@ -5,25 +5,27 @@
  * to validate and query data objects.
  */
 
+import { Arg } from "./arg";
+
 /** Logical Operators */
 export type LogicalOperators = {
     /**
      * Recursively applies multiple conditions, all of which must evaluate to true.
      * Can include other operators such as $gt, $exists, or nested $and/$or conditions.
      */
-    $and?: Array<PredefinedSearchOperators>;
+    $and?: Array<SearchOptions>;
 
     /**
      * Recursively applies multiple conditions, at least one of which must evaluate to true.
      * Can include other operators such as $lt, $type, or nested $and/$or conditions.
      */
-    $or?: Array<PredefinedSearchOperators>;
+    $or?: Array<SearchOptions>;
 
     /**
      * Negates a single condition.
      * Can include any other operator as its value.
      */
-    $not?: PredefinedSearchOperators;
+    $not?: SearchOptions;
 };
 
 /** Comparison Operators */
@@ -73,4 +75,4 @@ export type PredefinedSearchOperators = LogicalOperators &
 /**
  * SearchOptions can be either a function or an object with predefined operators.
  */
-export type SearchOptions = PredefinedSearchOperators | ((doc: { [key: string]: any }) => boolean);
+export type SearchOptions = PredefinedSearchOperators & Arg;

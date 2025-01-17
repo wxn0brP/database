@@ -8,8 +8,8 @@ export interface Arg {
     [key: string]: any
 }
 
-export type SearchFunc<T> = (data: T, context: Context) => boolean;
-export type UpdaterFunc<T> = (data: T, context: Context) => boolean;
+export type SearchFunc<T=any> = (data: T, context: Context) => boolean;
+export type UpdaterFunc<T=any> = (data: T, context: Context) => boolean;
 
-export type Search<T=any> = (Arg & SearchOptions & T) | SearchFunc<T>;
+export type Search<T=any> = SearchOptions | SearchFunc<T>;
 export type Updater<T=any> = UpdaterArg | UpdaterArg[] | UpdaterFunc<T>;

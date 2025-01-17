@@ -1,6 +1,6 @@
 {
 	"name": "@wxn0brp/db",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"main": "dist/esm/index.js",
 	"types": "dist/esm/index.d.ts",
 	"description": "A simple file-based database management system with support for CRUD operations, custom queries, and graph structures.",
@@ -46,9 +46,9 @@
 			"types": "./dist/esm/index.d.ts"
 		},
 		"./*": {
-		  	"import": "./dist/esm/*",
-		  	"require": "./dist/cjs/*",
-		  	"types": "./dist/esm/*"
+			"import": "./dist/esm/*",
+			"require": "./dist/cjs/*",
+			"types": "./dist/esm/*"
 		}
 	}
 }

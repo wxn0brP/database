@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/wxn0brP/database/compare/v0.0.6...v0.0.7) (2025-01-17)
+
+
+### Features
+
+* add .vscode to gitignore ([af6451f](https://github.com/wxn0brP/database/commit/af6451fe1857786810a35c2abc73a6f58ed00ea7))
+* add predefined update utility functions ([e667703](https://github.com/wxn0brP/database/commit/e667703444944ebbf7f6d2747804d4f0fe3a92ce))
+
+
+### Bug Fixes
+
+* export types on index ([16e3dbb](https://github.com/wxn0brP/database/commit/16e3dbb4627bc9c64c78e9a753f6af7667e10008))
+* exports ([907360a](https://github.com/wxn0brP/database/commit/907360ad9920530886c8b0b6c0cdad01a7843026))
+* types ([d8194a2](https://github.com/wxn0brP/database/commit/d8194a29d8602ef7c6ebe4567a30d8d24f65da4a))
+* types ([01cc0eb](https://github.com/wxn0brP/database/commit/01cc0eba9d03e54686fa8d0ac3aafee540786d7b))
+
 ### [0.0.6](https://github.com/wxn0brP/database/compare/v0.0.5...v0.0.6) (2024-12-27)
 
 

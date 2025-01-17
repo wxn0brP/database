@@ -73,4 +73,4 @@ export type PredefinedSearchOperators = LogicalOperators &
 /**
  * SearchOptions can be either a function or an object with predefined operators.
  */
-export type SearchOptions = PredefinedSearchOperators | ((doc: Record<string, any>) => boolean);
+export type SearchOptions = PredefinedSearchOperators | ((doc: { [key: string]: any }) => boolean);

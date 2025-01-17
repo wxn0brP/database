@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/wxn0brP/database/compare/v0.0.7...v0.0.8) (2025-01-17)
+
+
+### Features
+
+* add updater to md book ([5c988f3](https://github.com/wxn0brP/database/commit/5c988f3ec765dd7ce6f015733bc16953fa48cb7c))
+
+
+### Bug Fixes
+
+* Context type ([e7a54e9](https://github.com/wxn0brP/database/commit/e7a54e9998592f35c55e53f12fcaa59115e722f9))
+* types ([87548f0](https://github.com/wxn0brP/database/commit/87548f00f3e59c63ea7d7128177b1bbb0b8c3960))
+* types ([1061092](https://github.com/wxn0brP/database/commit/1061092b980e5d347984f9c02cb61703b73ef895))
+
 ### [0.0.7](https://github.com/wxn0brP/database/compare/v0.0.6...v0.0.7) (2025-01-17)
 
 

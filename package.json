@@ -20,12 +20,11 @@
 	"license": "MIT",
 	"type": "module",
 	"dependencies": {
-		"got": "^14.4.2",
 		"json5": "^2.2.3",
+		"ky": "^1.7.4",
 		"readline": "^1.3.0"
 	},
 	"devDependencies": {
-		"@types/got": "^9.6.12",
 		"@types/node": "^22.10.2",
 		"typescript": "^5.7.2"
 	},

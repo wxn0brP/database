@@ -5,11 +5,9 @@ export interface Remote {
 }
 
 export interface RequestData{
-    collection?: string;
     db?: string;
     keys?: string[];
-    // any kay and value
-    [key: string]: any; 
+    params?: Record<string, any>;
 }
 
 export interface findOptsRemote{

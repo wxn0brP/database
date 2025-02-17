@@ -4,13 +4,13 @@ export interface Remote {
     auth: string;
 }
 
-export interface RequestData{
+export interface RequestData {
     db?: string;
     keys?: string[];
     params?: Record<string, any>;
 }
 
-export interface findOptsRemote{
+export interface findOptsRemote {
     select?: string[]
     exclude?: string[]
     transform?: string

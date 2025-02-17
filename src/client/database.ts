@@ -1,11 +1,11 @@
 import ky from "ky";
-import CollectionManager from "../CollectionManager.js";
-import serializeFunctions from "./function.js";
-import { Remote, RequestData } from "./remote.js";
+import CollectionManager from "../CollectionManager";
+import serializeFunctions from "./function";
+import { Remote, RequestData } from "./remote";
 import { Arg, Search, Updater } from "../types/arg";
-import { DbFindOpts, FindOpts } from "../types/options.js";
+import { DbFindOpts, FindOpts } from "../types/options";
 import { Context } from "../types/types";
-import Data from "../types/data.js";
+import Data from "../types/data";
 
 /**
  * Represents a database management class for performing CRUD operations.

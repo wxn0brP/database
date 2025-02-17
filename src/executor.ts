@@ -1,4 +1,4 @@
-interface Task{
+interface Task {
     func: Function;
     param: any[];
     resolve: Function;
@@ -9,7 +9,7 @@ interface Task{
  * A simple executor for queuing and executing asynchronous operations sequentially.
  * @class
  */
-class executorC{
+class executorC {
     quote: Task[];
     isExecuting: boolean;
 
@@ -17,7 +17,7 @@ class executorC{
      * Create a new executor instance.
      * @constructor
      */
-    constructor(){
+    constructor() {
         this.quote = [];
         this.isExecuting = false;
     }
@@ -25,7 +25,7 @@ class executorC{
     /**
      * Add an asynchronous operation to the execution queue.
      */
-    async addOp(func: Function, ...param){
+    async addOp(func: Function, ...param) {
         return await new Promise((resolve, reject) => {
             this.quote.push({
                 func,
@@ -40,10 +40,10 @@ class executorC{
     /**
      * Execute the queued asynchronous operations sequentially.
      */
-    async execute(){
-        if(this.isExecuting) return;
+    async execute() {
+        if (this.isExecuting) return;
         this.isExecuting = true;
-        while(this.quote.length > 0){
+        while (this.quote.length > 0) {
             let q = this.quote.shift();
             let res = await q.func(...q.param);
             q.resolve(res)

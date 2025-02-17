@@ -1,6 +1,6 @@
-import DataBase from "./database.js";
-import { Search } from "./types/arg.js";
-import { DbFindOpts } from "./types/options.js";
+import DataBase from "./database";
+import { Search } from "./types/arg";
+import { DbFindOpts } from "./types/options";
 
 export interface Databases {
     [key: string]: DataBase;
@@ -45,7 +45,7 @@ class Relation {
      */
     private async _processItemRelations(item: Record<string, any>, relations: Record<string, RelationConfig>): Promise<Record<string, any>> {
         if (!item || typeof item !== "object") return item;
-        
+
         const result: Record<string, any> = { ...item };
 
         for (const [field, relationConfig] of Object.entries(relations)) {
@@ -58,7 +58,7 @@ class Relation {
                 const { db, collection } = this._resolvePath(relationConfig.from);
                 const searchQuery = { [relationConfig.foreignField]: item[relationConfig.localField] };
                 const fetchFn = relationConfig.multiple ? db.find.bind(db) : db.findOne.bind(db);
-                
+
                 result[relationConfig.as || field] = await fetchFn(collection, searchQuery) || null;
             } catch (error) {
                 console.error(`Error processing relation for field "${field}":`, error);

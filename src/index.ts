@@ -1,9 +1,9 @@
-import DataBase from "./database.js";
-import Graph from "./graph.js";
-import DataBaseRemote from "./client/database.js";
-import GraphRemote from "./client/graph.js";
-import genId from "./gen.js";
-import Relation from "./relation.js";
+import DataBase from "./database";
+import Graph from "./graph";
+import DataBaseRemote from "./client/database";
+import GraphRemote from "./client/graph";
+import genId from "./gen";
+import Relation from "./relation";
 
 export {
     DataBase,
@@ -14,11 +14,11 @@ export {
     genId
 }
 
-import type Id from "./types/Id.js";
-import type { Arg, Search, Updater } from "./types/arg.js";
-import type { DbFindOpts, FindOpts, DbOpts } from "./types/options.js";
-import type Data from "./types/data.js";
-import type { SearchOptions } from "./types/searchOpts.js";
+import type Id from "./types/Id";
+import type { Arg, Search, Updater } from "./types/arg";
+import type { DbFindOpts, FindOpts, DbOpts } from "./types/options";
+import type Data from "./types/data";
+import type { SearchOptions } from "./types/searchOpts";
 
 export type {
     Id,

@@ -1,11 +1,11 @@
-import { UpdaterArg } from "../types/updater.js";
+import { UpdaterArg } from "../types/updater";
 
 /**
  * Updates an object with new values.
  * @param obj - The object to update.
  * @param fields - An object containing new values to update in the target object.
  */
-export default function updateObjectAdvanced(obj: any, fields: UpdaterArg | UpdaterArg[]) {
+export default function updateObjectAdvanced(obj: Object, fields: UpdaterArg | UpdaterArg[]) {
     if (typeof fields !== "object" || fields === null) {
         throw new Error("Fields must be an object or object array");
     }
@@ -25,7 +25,7 @@ export default function updateObjectAdvanced(obj: any, fields: UpdaterArg | Upda
     return obj;
 }
 
-function updateAdvanced(obj: any, fields: UpdaterArg) {
+function updateAdvanced(obj: Object, fields: UpdaterArg) {
     updateArray(obj, fields);
     updateNested(obj, fields);
     updateIncrement(obj, fields);
@@ -33,7 +33,7 @@ function updateAdvanced(obj: any, fields: UpdaterArg) {
     updateRename(obj, fields);
 }
 
-function removeAdvancedOperators(fields: any) {
+function removeAdvancedOperators(fields: Object) {
     const advancedOperators = [
         "push", "pushset", "pull", "pullall",
         "inc", "dec",
@@ -45,7 +45,7 @@ function removeAdvancedOperators(fields: any) {
     return fields;
 }
 
-function updateArray(obj: any, fields: UpdaterArg) {
+function updateArray(obj: Object, fields: UpdaterArg) {
     if ("$push" in fields) {
         for (const [key, value] of Object.entries(fields["$push"])) {
             if (Array.isArray(obj[key])) {
@@ -84,7 +84,7 @@ function updateArray(obj: any, fields: UpdaterArg) {
     }
 }
 
-function updateNested(obj: any, fields: UpdaterArg) {
+function updateNested(obj: Object, fields: UpdaterArg) {
     if ("$merge" in fields) {
         for (const [key, value] of Object.entries(fields["$merge"])) {
             if (typeof obj[key] === "object" && typeof value === "object") {
@@ -96,7 +96,7 @@ function updateNested(obj: any, fields: UpdaterArg) {
     }
 }
 
-function updateIncrement(obj: any, fields: UpdaterArg) {
+function updateIncrement(obj: Object, fields: UpdaterArg) {
     if ("$inc" in fields) {
         for (const [key, value] of Object.entries(fields["$inc"])) {
             if (typeof obj[key] === "number" && typeof value === "number") {
@@ -122,7 +122,7 @@ function updateIncrement(obj: any, fields: UpdaterArg) {
     }
 }
 
-function updateUnset(obj: any, fields: UpdaterArg) {
+function updateUnset(obj: Object, fields: UpdaterArg) {
     if ("$unset" in fields) {
         for (const key of Object.keys(fields["$unset"])) {
             delete obj[key];
@@ -130,7 +130,7 @@ function updateUnset(obj: any, fields: UpdaterArg) {
     }
 }
 
-function updateRename(obj: any, fields: UpdaterArg) {
+function updateRename(obj: Object, fields: UpdaterArg) {
     if ("$rename" in fields) {
         for (const [oldKey, newKey] of Object.entries(fields["$rename"])) {
             if (oldKey in obj) {
@@ -146,7 +146,7 @@ function updateRename(obj: any, fields: UpdaterArg) {
  * @param obj - The object to update.
  * @param newVal - An object containing new values to update in the target object.
  */
-function updateObject(obj: any, newVal: UpdaterArg) {
+function updateObject(obj: Object, newVal: UpdaterArg) {
     for (let key in newVal) {
         if (newVal.hasOwnProperty(key)) {
             obj[key] = newVal[key];

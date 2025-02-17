@@ -1,61 +1,61 @@
-import { existsSync, promises, appendFileSync, readdirSync, cp } from "fs";
-import { pathRepair, createRL } from "./utils.js";
-import { parse } from "../format.js";
-import hasFieldsAdvanced from "../utils/hasFieldsAdvanced.js";
-import { Search } from "../types/arg.js";
-import { Context } from "../types/types.js";
+import { existsSync, promises, appendFileSync, readdirSync } from "fs";
+import { pathRepair, createRL } from "./utils";
+import { parse } from "../format";
+import hasFieldsAdvanced from "../utils/hasFieldsAdvanced";
+import { Search } from "../types/arg";
+import { Context } from "../types/types";
 
 /**
  * Removes entries from a file based on search criteria.
  */
-async function removeWorker(file: string, search: Search, context: Context={}, one: boolean=false){
+async function removeWorker(file: string, search: Search, context: Context = {}, one: boolean = false) {
     file = pathRepair(file);
-    if(!existsSync(file)){
+    if (!existsSync(file)) {
         await promises.writeFile(file, "");
         return false;
     }
-    await promises.copyFile(file, file+".tmp");
+    await promises.copyFile(file, file + ".tmp");
     await promises.writeFile(file, "");
 
-    const rl = createRL(file+".tmp");
-  
+    const rl = createRL(file + ".tmp");
+
     let removed = false;
-    for await(let line of rl){
-        if(one && removed){
-            appendFileSync(file, line+"\n");
+    for await (let line of rl) {
+        if (one && removed) {
+            appendFileSync(file, line + "\n");
             continue;
         }
 
         const data = parse(line);
 
-        if(typeof search === "function"){
-            if(search(data, context)){
+        if (typeof search === "function") {
+            if (search(data, context)) {
                 removed = true;
                 continue;
             }
-        }else if(typeof search === "object" && !Array.isArray(search)){
-            if(hasFieldsAdvanced(data, search)){
+        } else if (typeof search === "object" && !Array.isArray(search)) {
+            if (hasFieldsAdvanced(data, search)) {
                 removed = true;
                 continue;
             }
         }
-        
-        appendFileSync(file, line+"\n");
+
+        appendFileSync(file, line + "\n");
     }
-    await promises.writeFile(file+".tmp", "");
+    await promises.writeFile(file + ".tmp", "");
     return removed;
 }
 
 /**
  * Asynchronously removes entries from a file based on search criteria.
  */
-async function remove(cpath: string, arg: Search, context: Context={}, one: boolean=false){
+async function remove(cpath: string, arg: Search, context: Context = {}, one: boolean = false) {
     let files = readdirSync(cpath).filter(file => !/\.tmp$/.test(file));
     files.reverse();
     let remove = false;
-    for(const file of files){
+    for (const file of files) {
         const removed = await removeWorker(cpath + file, arg, context, one);
-        if(one && removed) break;
+        if (one && removed) break;
         remove = remove || removed;
     }
     return remove;

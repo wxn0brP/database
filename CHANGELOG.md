@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/wxn0brP/database/compare/v0.0.8...v0.1.0) (2025-02-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade id generator
+
+### Features
+
+* update remote client, migrate `got` to `ky` ([3eb5d25](https://github.com/wxn0brP/database/commit/3eb5d25f464fd107201c1ad9231704e1a6069bed))
+* upgrade id generator ([0e92abf](https://github.com/wxn0brP/database/commit/0e92abfd811dfe2fe4571273f5fa1099a20d9b2b))
+
+
+### Bug Fixes
+
+* relation ([c5e62bd](https://github.com/wxn0brP/database/commit/c5e62bdc9bbc5d7a2c3d6f7a3844c08d3c534d80))
+* type on collection manager ([24c2061](https://github.com/wxn0brP/database/commit/24c2061646fe6b2ea70b62c62180a28204506d2c))
+
 ### [0.0.8](https://github.com/wxn0brP/database/compare/v0.0.7...v0.0.8) (2025-01-17)
 
 

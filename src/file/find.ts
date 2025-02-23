@@ -27,7 +27,7 @@ async function findProcesLine(arg: Search, line: string, context: Context = {}, 
 /**
  * Asynchronously finds entries in a file based on search criteria.
  */
-export async function find(file: string, arg: Search, context: Context = {}, findOpts: FindOpts = {}) {
+export async function find(file: string, arg: Search, context: Context = {}, findOpts: FindOpts = {}): Promise<any[] | false> {
     file = pathRepair(file);
     return await new Promise(async (resolve) => {
         if (!existsSync(file)) {
@@ -51,7 +51,7 @@ export async function find(file: string, arg: Search, context: Context = {}, fin
 /**
  * Asynchronously finds one entry in a file based on search criteria.
  */
-export async function findOne(file: string, arg: Search, context: Context = {}, findOpts: FindOpts = {}) {
+export async function findOne(file: string, arg: Search, context: Context = {}, findOpts: FindOpts = {}): Promise<any | false> {
     file = pathRepair(file);
     return await new Promise(async (resolve) => {
         if (!existsSync(file)) {

@@ -10,17 +10,11 @@ import {
     existsSync,
     mkdirSync,
     readdirSync,
-    appendFileSync,
     rmSync,
     writeFileSync,
     statSync
 } from "fs";
-import {
-    find as _find,
-    findOne as _findOne,
-    update as _update,
-    remove as _remove
-} from "./file/index";
+import FileCpu from "./types/fileCpu";
 
 /**
  * A class representing database actions on files.
@@ -29,6 +23,7 @@ import {
 class dbActionC {
     folder: string;
     options: DbOpts;
+    fileCpu: FileCpu;
 
     /**
      * Creates a new instance of dbActionC.
@@ -36,12 +31,13 @@ class dbActionC {
      * @param folder - The folder where database files are stored.
      * @param options - The options object.
      */
-    constructor(folder: string, options: DbOpts) {
+    constructor(folder: string, options: DbOpts, fileCpu: FileCpu) {
         this.folder = folder;
         this.options = {
             maxFileSize: 2 * 1024 * 1024, //2 MB
             ...options,
         };
+        this.fileCpu = fileCpu;
 
         if (!existsSync(folder)) mkdirSync(folder, { recursive: true });
     }
@@ -89,8 +85,7 @@ class dbActionC {
         const file = cpath + getLastFile(cpath, this.options.maxFileSize);
 
         if (id_gen) arg._id = arg._id || gen();
-        const data = stringify(arg);
-        appendFileSync(file, data + "\n");
+        this.fileCpu.add(file, arg);
         return arg;
     }
 
@@ -110,7 +105,7 @@ class dbActionC {
         let totalEntries = 0;
 
         for (let f of files) {
-            let data = await _find(cpath + f, arg, context, findOpts) as Data[];
+            let data = await this.fileCpu.find(cpath + f, arg, context, findOpts) as Data[];
             if (options.reverse) data.reverse();
 
             if (options.max !== -1) {
@@ -139,7 +134,7 @@ class dbActionC {
         const files = getSortedFiles(cpath).map(f => f.f);
 
         for (let f of files) {
-            let data = await _findOne(cpath + f, arg, context, findOpts) as Data;
+            let data = await this.fileCpu.findOne(cpath + f, arg, context, findOpts) as Data;
             if (data) return data;
         }
         return null;
@@ -150,7 +145,7 @@ class dbActionC {
      */
     async update(collection: string, arg: Search, updater: Updater, context = {}) {
         this.checkCollection(collection);
-        return await _update(this._getCollectionPath(collection), arg, updater, context);
+        return await this.fileCpu.update(this._getCollectionPath(collection), arg, updater, context);
     }
 
     /**
@@ -158,7 +153,7 @@ class dbActionC {
      */
     async updateOne(collection: string, arg: Search, updater: Updater, context: Context = {}) {
         this.checkCollection(collection);
-        return await _update(this._getCollectionPath(collection), arg, updater, context, true);
+        return await this.fileCpu.update(this._getCollectionPath(collection), arg, updater, context, true);
     }
 
     /**
@@ -166,7 +161,7 @@ class dbActionC {
      */
     async remove(collection: string, arg: Search, context: Context = {}) {
         this.checkCollection(collection);
-        return await _remove(this._getCollectionPath(collection), arg, context);
+        return await this.fileCpu.remove(this._getCollectionPath(collection), arg, context);
     }
 
     /**
@@ -174,7 +169,7 @@ class dbActionC {
      */
     async removeOne(collection: string, arg: Search, context: Context = {}) {
         this.checkCollection(collection);
-        return await _remove(this._getCollectionPath(collection), arg, context, true);
+        return await this.fileCpu.remove(this._getCollectionPath(collection), arg, context, true);
     }
 
     /**

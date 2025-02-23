@@ -5,6 +5,8 @@ import { DbFindOpts, DbOpts, FindOpts } from "./types/options";
 import { Arg, Search, Updater } from "./types/arg";
 import Data from "./types/data";
 import { Context } from "./types/types";
+import FileCpu from "./types/fileCpu";
+import vFileCpu from "./file";
 
 /**
  * Represents a database management class for performing CRUD operations.
@@ -14,8 +16,9 @@ class DataBase {
     dbAction: dbActionC;
     executor: executorC;
 
-    constructor(folder: string, options: DbOpts = {}) {
-        this.dbAction = new dbActionC(folder, options);
+    constructor(folder: string, options: DbOpts = {}, fileCpu?: FileCpu) {
+        if(!fileCpu) fileCpu = vFileCpu;
+        this.dbAction = new dbActionC(folder, options, fileCpu);
         this.executor = new executorC();
     }
 

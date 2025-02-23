@@ -20,7 +20,7 @@ import { DataBase, Graph, DataBaseRemote, GraphRemote, Relation, genId } from "@
 
 ## Documentation
 
-Website: [https://wxn0brp.github.io/database/](https://wxn0brp.github.io/database/)
+Website: [https://wxn0brp.github.io/ValtheraDB/](https://wxn0brp.github.io/ValtheraDB/)
 
 For detailed information, refer to the following resources:
 

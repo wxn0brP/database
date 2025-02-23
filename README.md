@@ -1,4 +1,4 @@
-# @wxn0brp/db
+# ValtheraDB (@wxn0brp/db)
 
 A lightweight file-based database management system that supports CRUD operations, custom queries, and graph structures.
 
